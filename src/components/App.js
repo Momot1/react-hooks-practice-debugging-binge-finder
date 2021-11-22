@@ -16,6 +16,8 @@ function App() {
     Adapter.getShows().then((shows) => setShows(shows));
   }, []);
 
+  let displayShows = shows;
+
   useEffect(() => {
     window.scrollTo(0, 0);
   });
@@ -37,11 +39,17 @@ function App() {
     });
   }
 
-  let displayShows = shows;
-  if (filterByRating) {
+  
+  if (filterByRating !== "") {
     displayShows = displayShows.filter((s) => {
-      s.rating.average >= filterByRating;
+      return s.rating.average >= filterByRating;
     });
+  }
+
+  if(searchTerm !== ""){
+    displayShows = displayShows.filter(s => {
+      return s.name.toLowerCase().includes(searchTerm)
+    })
   }
 
   return (
